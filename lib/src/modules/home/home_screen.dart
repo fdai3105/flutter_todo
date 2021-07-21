@@ -1,6 +1,9 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_todo/src/modules/create_todo/create_todo_controller.dart';
+import 'package:flutter_todo/src/modules/create_todo/create_todo_screen.dart';
 import 'package:get/get.dart';
 
 import '../../theme/theme.dart';
@@ -155,9 +158,22 @@ class HomeScreen extends GetView<HomeController> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.add),
+      floatingActionButton: OpenContainer(
+        transitionType: ContainerTransitionType.fade,
+        openBuilder: (context, callback) {
+          Get.put(CreateTodoController());
+          return const CreateTodoScreen();
+        },
+        closedBuilder: (context, callback) {
+          return const FloatingActionButton(
+            onPressed: null,
+            child: Icon(Icons.add),
+          );
+        },
+        closedColor: Colors.transparent,
+        closedElevation: 0,
+        openColor: Colors.transparent,
+        openElevation: 0,
       ),
     );
   }
