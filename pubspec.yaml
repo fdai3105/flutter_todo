@@ -31,6 +31,8 @@ dependencies:
   get: ^4.1.4
   pedantic: ^1.11.1
   lottie: ^1.1.0
+  flutter_svg: ^0.22.0
+  animations: ^2.0.1
 
 dev_dependencies:
   flutter_test:
@@ -51,6 +53,7 @@ flutter:
   assets:
     # - assets/images/
     - assets/lottie/
+    - assets/svg/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

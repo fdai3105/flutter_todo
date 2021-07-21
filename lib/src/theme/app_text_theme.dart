@@ -34,4 +34,8 @@ class AppTextTheme {
   static final TextStyle taskTitle2 = taskTitle.copyWith(
     color: AppColors.text2,
   );
+
+  static final TextStyle text = TextStyle(
+    color: AppColors.text1,
+  );
 }

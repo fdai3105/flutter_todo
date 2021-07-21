@@ -39,12 +39,6 @@ class _WidgetTodoItemState extends State<WidgetTodoItem>
     super.initState();
   }
 
-  @override
-  void didUpdateWidget(covariant WidgetTodoItem oldWidget) {
-    startAnimation();
-    super.didUpdateWidget(oldWidget);
-  }
-
   void startAnimation() {
     if (widget.todo.isCompleted) {
       checkboxAnimation.forward();
@@ -58,7 +52,10 @@ class _WidgetTodoItemState extends State<WidgetTodoItem>
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: widget.onTap,
+      onTap: () {
+        widget.onTap();
+        startAnimation();
+      },
       child: Container(
         margin: const EdgeInsets.only(bottom: 10),
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
@@ -68,30 +65,33 @@ class _WidgetTodoItemState extends State<WidgetTodoItem>
         ),
         child: Row(
           children: [
-            Lottie.asset(
-              'assets/lottie/checkbox.json',
-              controller: checkboxAnimation,
-              delegates: LottieDelegates(
-                values: [
-                  // bg color
-                  ValueDelegate.color(
-                    const ['Layer 3/check Outlines 2', '**', 'Fill 1'],
-                    value: Colors.green,
-                  ),
-                  // tick color
-                  ValueDelegate.color(
-                    const ['Layer 3/check Outlines', '**', 'Fill 1'],
-                    value: AppColors.primary,
-                  ),
-                  // border color
-                  ValueDelegate.strokeColor(
-                    const ['Layer 3/check Outlines', '**', 'Stroke 1'],
-                    value: AppColors.primary,
-                  ),
-                ],
+            Opacity(
+              opacity: 0.4,
+              child: Lottie.asset(
+                'assets/lottie/checkbox.json',
+                height: 36,
+                width: 36,
+                controller: checkboxAnimation,
+                delegates: LottieDelegates(
+                  values: [
+                    // bg color
+                    ValueDelegate.color(
+                      const ['Layer 3/check Outlines 2', '**', 'Fill 1'],
+                      value: Colors.green,
+                    ),
+                    // tick color
+                    ValueDelegate.color(
+                      const ['Layer 3/check Outlines', '**', 'Fill 1'],
+                      value: AppColors.primary,
+                    ),
+                    // border color
+                    ValueDelegate.strokeColor(
+                      const ['Layer 3/check Outlines', '**', 'Stroke 1'],
+                      value: AppColors.primary,
+                    ),
+                  ],
+                ),
               ),
-              height: 36,
-              width: 36,
             ),
             const SizedBox(width: 10),
             Stack(

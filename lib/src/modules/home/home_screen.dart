@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../theme/theme.dart';
@@ -53,6 +54,77 @@ class HomeScreen extends GetView<HomeController> {
               const SizedBox(height: 30),
               WidgetContainer(
                 title: 'TODAY\'S TASK\'S',
+                trailing: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () {
+                    Get.bottomSheet(
+                      Container(
+                        decoration: const BoxDecoration(
+                          color: AppColors.primary,
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(10),
+                          ),
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              height: 6,
+                              width: 30,
+                              margin: const EdgeInsets.symmetric(vertical: 10),
+                              decoration: BoxDecoration(
+                                color: AppColors.text2,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            ListView(
+                              shrinkWrap: true,
+                              children: [
+                                ListTile(
+                                  onTap: () {
+                                    controller.onSortBy(SortBy.alphabetically);
+                                  },
+                                  title: Text(
+                                    'Alphabetically',
+                                    style: AppTextTheme.text,
+                                  ),
+                                ),
+                                ListTile(
+                                  title: Text(
+                                    'Due date',
+                                    style: AppTextTheme.text,
+                                  ),
+                                ),
+                                ListTile(
+                                  onTap: () {
+                                    controller.onSortBy(SortBy.createdDate);
+                                  },
+                                  title: Text(
+                                    'Creation date',
+                                    style: AppTextTheme.text,
+                                  ),
+                                ),
+                                ListTile(
+                                  onTap: () {
+                                    controller.onSortBy(SortBy.completed);
+                                  },
+                                  title: Text(
+                                    'Creation date',
+                                    style: AppTextTheme.text,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                  child: SvgPicture.asset(
+                    'assets/svg/sort.svg',
+                    color: AppColors.text1,
+                  ),
+                ),
                 child: GetX<HomeController>(
                   builder: (_) {
                     return ListView.builder(
@@ -82,6 +154,10 @@ class HomeScreen extends GetView<HomeController> {
             ],
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.add),
       ),
     );
   }
