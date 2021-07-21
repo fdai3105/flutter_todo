@@ -9,9 +9,4 @@ class CreateTodoController extends GetxController {
   set selectColor(MaterialColor value) {
     _selectColor.value = value;
   }
-
-  @override
-  void onInit() {
-    super.onInit();
-  }
 }

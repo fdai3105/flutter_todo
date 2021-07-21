@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_todo/src/modules/create_todo/create_todo_controller.dart';
 import 'package:get/get.dart';
 
 import '../../theme/theme.dart';
+import 'create_todo_controller.dart';
 import 'widgets/widgets.dart';
 
 class CreateTodoScreen extends GetView<CreateTodoController> {

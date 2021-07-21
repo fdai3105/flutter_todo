@@ -58,11 +58,6 @@ class HomeController extends GetxController {
     _todos.value = value;
   }
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
   void onSortBy(SortBy sortBy) {
     switch (sortBy) {
       case SortBy.importance:
