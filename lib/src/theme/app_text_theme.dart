@@ -4,23 +4,23 @@ class AppTextTheme {
   AppTextTheme._();
 
   static const title = TextStyle(
-    color: AppColors.text,
+    color: AppColors.light,
     fontSize: 30,
     fontWeight: FontWeight.w600,
   );
 
   static final containerTitle = TextStyle(
-    color: AppColors.text1,
+    color: AppColors.light1,
     fontSize: 16,
     fontWeight: FontWeight.bold,
   );
 
   static final TextStyle categoryCount = TextStyle(
-    color: AppColors.text2,
+    color: AppColors.light2,
   );
 
   static const TextStyle categoryTitle = TextStyle(
-    color: AppColors.text,
+    color: AppColors.light,
     fontSize: 20,
     fontWeight: FontWeight.w600,
   );
@@ -32,10 +32,10 @@ class AppTextTheme {
   );
 
   static final TextStyle taskTitle2 = taskTitle.copyWith(
-    color: AppColors.text2,
+    color: AppColors.light2,
   );
 
   static final TextStyle text = TextStyle(
-    color: AppColors.text1,
+    color: AppColors.light1,
   );
 }

@@ -102,7 +102,7 @@ class _WidgetTodoItemState extends State<WidgetTodoItem>
                     alignment: Alignment.centerLeft,
                     child: Divider(
                       thickness: 1,
-                      color: AppColors.text2,
+                      color: AppColors.light2,
                     ),
                   ),
                 ),

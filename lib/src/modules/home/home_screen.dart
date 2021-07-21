@@ -76,7 +76,7 @@ class HomeScreen extends GetView<HomeController> {
                               width: 30,
                               margin: const EdgeInsets.symmetric(vertical: 10),
                               decoration: BoxDecoration(
-                                color: AppColors.text2,
+                                color: AppColors.light2,
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
@@ -125,7 +125,7 @@ class HomeScreen extends GetView<HomeController> {
                   },
                   child: SvgPicture.asset(
                     'assets/svg/sort.svg',
-                    color: AppColors.text1,
+                    color: AppColors.light1,
                   ),
                 ),
                 child: GetX<HomeController>(

@@ -131,7 +131,7 @@ class CreateTodoScreen extends GetView<CreateTodoController> {
                       SizedBox(width: 10),
                       Icon(
                         Icons.keyboard_arrow_up,
-                        color: AppColors.text,
+                        color: AppColors.light,
                       )
                     ],
                   ),
