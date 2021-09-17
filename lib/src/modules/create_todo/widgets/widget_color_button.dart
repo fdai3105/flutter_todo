@@ -18,12 +18,38 @@ class WidgetColorButton extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         child: Row(
           children: [
+            ...SharePref.getColors().map(
+              (e) => _buildDot(MaterialColor(e, {})),
+            ),
             _buildDot(Colors.blue),
             _buildDot(Colors.red),
             _buildDot(Colors.orange),
-            _buildDot(Colors.yellow),
+            _buildDot(Colors.grey),
             _buildDot(Colors.green),
             _buildDot(Colors.purple),
+            _buildRainbow(() {
+              var color = const Color(0xff443a49);
+              Get.dialog(AlertDialog(
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SlidePicker(
+                      pickerColor: color,
+                      onColorChanged: (value) => color = value,
+                      paletteType: PaletteType.rgb,
+                      enableAlpha: false,
+                      displayThumbColor: true,
+                      showLabel: false,
+                      showIndicator: false,
+                    ),
+                    ElevatedButton(
+                      onPressed: () => SharePref.saveColors(color.value),
+                      child: const Text('Save'),
+                    ),
+                  ],
+                ),
+              ));
+            }),
           ],
         ),
       ),
@@ -40,7 +66,7 @@ class WidgetColorButton extends StatelessWidget {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: this.color == color
-                ? Border.all(color: AppColors.border, width: 2)
+                ? Border.all(color: color.withOpacity(0.4), width: 2)
                 : Border.all(color: Colors.transparent, width: 2),
           ),
           child: Container(
@@ -60,6 +86,22 @@ class WidgetColorButton extends StatelessWidget {
                 ),
               ),
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRainbow(Function() onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.only(right: 10),
+        child: GestureDetector(
+          onTap: onTap,
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            child: const Icon(Icons.add_rounded, color: Colors.white),
           ),
         ),
       ),

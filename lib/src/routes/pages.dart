@@ -9,7 +9,7 @@ class Pages {
   Pages._();
 
   static final pages = [
-    GetPage(name: Routes.home, page: () => const HomeScreen()),
+    GetPage(name: Routes.home, page: () => HomeScreen()),
     GetPage(
       name: Routes.createTodo,
       page: () => const CreateTodoScreen(),

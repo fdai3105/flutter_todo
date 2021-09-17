@@ -1,7 +1,7 @@
 part of 'widgets.dart';
 
 class WidgetTodoItem extends StatefulWidget {
-  final Todo todo;
+  final TodoDatum todo;
   final Function() onTap;
 
   const WidgetTodoItem({
@@ -40,7 +40,7 @@ class _WidgetTodoItemState extends State<WidgetTodoItem>
   }
 
   void startAnimation() {
-    if (widget.todo.isCompleted) {
+    if (widget.todo.complete) {
       checkboxAnimation.forward();
       animation.forward();
     } else {
@@ -58,7 +58,7 @@ class _WidgetTodoItemState extends State<WidgetTodoItem>
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 10),
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+        padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
           color: AppColors.secondary,
           borderRadius: BorderRadius.circular(10),
@@ -110,7 +110,7 @@ class _WidgetTodoItemState extends State<WidgetTodoItem>
                   padding: const EdgeInsets.symmetric(horizontal: 4),
                   child: Text(
                     widget.todo.todo,
-                    style: widget.todo.isCompleted
+                    style: widget.todo.complete
                         ? AppTextTheme.taskTitle2
                         : AppTextTheme.taskTitle,
                   ),

@@ -1,6 +1,12 @@
+import 'package:flutter_todo/src/modules/login/login_binding.dart';
+import 'package:flutter_todo/src/modules/login/login_screen.dart';
+import 'package:flutter_todo/src/widgets/dialog_loading.dart';
 import 'package:get/get.dart';
 
-import '../../data/models/models.dart';
+import '../../data/models/todo.dart';
+import '../../data/models/user.dart';
+import '../../data/providers/todo_provider.dart';
+import '../../utils/share_pref.dart';
 
 enum SortBy {
   importance,
@@ -11,70 +17,62 @@ enum SortBy {
 }
 
 class HomeController extends GetxController {
-  final _todos = <Todo>[
-    Todo(
-      todo: 'Clean room',
-      isCompleted: false,
-      updatedAt: DateTime.now(),
-      createdAt: DateTime.now(),
-    ),
-    Todo(
-      todo: 'Clean kitchen',
-      isCompleted: false,
-      updatedAt: DateTime.now(),
-      createdAt: DateTime.now(),
-    ),
-    Todo(
-      todo: 'Fix light',
-      isCompleted: false,
-      updatedAt: DateTime.now(),
-      createdAt: DateTime.now(),
-    ),
-    Todo(
-      todo: 'Cook rice',
-      isCompleted: true,
-      updatedAt: DateTime.now(),
-      createdAt: DateTime.now(),
-    ),
-    Todo(
-      todo: 'A bike',
-      isCompleted: true,
-      updatedAt: DateTime.now(),
-      createdAt: DateTime.now(),
-    ),
-  ].obs;
+  final TodoProvider todoProvider;
 
-  final _sortBy = SortBy.createdDate.obs;
+  HomeController({required this.todoProvider});
 
-  SortBy get sortBy => _sortBy.value;
+  final _user = Rxn<User>();
+  final _todo = Rxn<Todo>();
 
-  set sortBy(SortBy value) {
-    _sortBy.value = value;
+  User? get user => _user.value;
+
+  set user(User? value) {
+    _user.value = value;
   }
 
-  List<Todo> get todos => _todos;
+  Todo? get todo => _todo.value;
 
-  set todos(List<Todo> value) {
-    _todos.value = value;
+  set todo(Todo? value) {
+    _todo.value = value;
   }
 
-  void onSortBy(SortBy sortBy) {
-    switch (sortBy) {
-      case SortBy.importance:
-        todos.sort((a, b) => a.createdAt.compareTo(b.createdAt));
-        break;
-      case SortBy.dueDate:
-        break;
-      case SortBy.createdDate:
-        todos.sort((a, b) => a.createdAt.compareTo(b.createdAt));
-        break;
-      case SortBy.alphabetically:
-        todos.sort((a, b) => a.todo.compareTo(b.todo));
-        break;
-      case SortBy.completed:
-        todos.sort((a, b) => b.isCompleted ? 1 : -1);
-        break;
+  @override
+  void onInit() {
+    user = SharePref.getUser();
+    loadTodos();
+    super.onInit();
+  }
+
+  Future loadTodos() async {
+    final response = await todoProvider.getTodos();
+    if (response.ok) {
+      todo = response.data!;
     }
-    Get.back();
   }
+
+  Future logout() async {
+    Get.dialog(const DialogLoading());
+    await SharePref.logout();
+    Get.off(() => LoginScreen(), binding: LoginBinding());
+  }
+
+// void onSortBy(SortBy sortBy) {
+//   switch (sortBy) {
+//     case SortBy.importance:
+//       todos.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+//       break;
+//     case SortBy.dueDate:
+//       break;
+//     case SortBy.createdDate:
+//       todos.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+//       break;
+//     case SortBy.alphabetically:
+//       todos.sort((a, b) => a.todo.compareTo(b.todo));
+//       break;
+//     case SortBy.completed:
+//       todos.sort((a, b) => b.isCompleted ? 1 : -1);
+//       break;
+//   }
+//   Get.back();
+// }
 }

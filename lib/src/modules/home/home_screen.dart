@@ -2,6 +2,8 @@ import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_todo/src/modules/category/category_binding.dart';
+import 'package:flutter_todo/src/modules/category/category_screen.dart';
 import 'package:get/get.dart';
 
 import '../../theme/theme.dart';
@@ -11,28 +13,41 @@ import 'home_controller.dart';
 import 'widgets/widgets.dart';
 
 class HomeScreen extends GetView<HomeController> {
-  const HomeScreen({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primary,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        shadowColor: Colors.transparent,
+        title: Text(
+          'Whats\'up ${controller.user?.name}',
+          style: AppTextTheme.title,
+        ),
+        actions: [
+          IconButton(
+            onPressed: () => controller.logout(),
+            icon: const Icon(Icons.logout_rounded),
+          )
+        ],
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 30),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: Text(
-                  'Whats\'up Dai Hoang',
-                  style: AppTextTheme.title,
-                ),
-              ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
               WidgetContainer(
                 title: 'CATEGORY',
+                onTitleTap: () => Get.to(
+                  () => const CategoryScreen(),
+                  binding: CategoryBinding(),
+                ),
+                trailing: Icon(
+                  Icons.keyboard_arrow_right_rounded,
+                  color: AppColors.light1,
+                ),
                 child: SizedBox(
                   height: 110,
                   width: double.infinity,
@@ -81,11 +96,21 @@ class HomeScreen extends GetView<HomeController> {
                               ),
                             ),
                             ListView(
+                              physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               children: [
                                 ListTile(
+                                  title: Text(
+                                    'Sort by:',
+                                    style: AppTextTheme.text.copyWith(
+                                      color: AppColors.light,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ),
+                                ListTile(
                                   onTap: () {
-                                    controller.onSortBy(SortBy.alphabetically);
+                                    // controller.onSortBy(SortBy.alphabetically);
                                   },
                                   title: Text(
                                     'Alphabetically',
@@ -100,7 +125,7 @@ class HomeScreen extends GetView<HomeController> {
                                 ),
                                 ListTile(
                                   onTap: () {
-                                    controller.onSortBy(SortBy.createdDate);
+                                    // controller.onSortBy(SortBy.createdDate);
                                   },
                                   title: Text(
                                     'Creation date',
@@ -109,7 +134,7 @@ class HomeScreen extends GetView<HomeController> {
                                 ),
                                 ListTile(
                                   onTap: () {
-                                    controller.onSortBy(SortBy.completed);
+                                    // controller.onSortBy(SortBy.completed);
                                   },
                                   title: Text(
                                     'Creation date',
@@ -134,19 +159,18 @@ class HomeScreen extends GetView<HomeController> {
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: controller.todos.length,
+                      itemCount: controller.todo?.data.length ?? 0,
                       itemBuilder: (context, i) {
                         return WidgetTodoItem(
-                          todo: controller.todos[i],
+                          todo: controller.todo!.data[i],
                           onTap: () {
-                            controller.todos =
-                                controller.todos.where((element) {
-                              if (element == controller.todos[i]) {
-                                element.isCompleted = !element.isCompleted;
-                                return true;
-                              }
-                              return true;
-                            }).toList();
+                            // controller.todos = controller.todos.where((element) {
+                            //   if (element == controller.todos[i]) {
+                            //     // element.isCompleted = !element.isCompleted;
+                            //     return true;
+                            //   }
+                            //   return true;
+                            // }).toList();
                           },
                         );
                       },

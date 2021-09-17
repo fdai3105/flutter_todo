@@ -29,8 +29,12 @@ class _WidgetCategoryItemState extends State<WidgetCategoryItem>
       vsync: this,
       duration: const Duration(milliseconds: 600),
     );
-    tween = Tween<double>(begin: 0, end: widget.completed / widget.taskCount)
-        .animate(controller);
+    tween = Tween<double>(
+      begin: 0,
+      end: widget.completed > widget.taskCount
+          ? 1
+          : widget.completed / widget.taskCount,
+    ).animate(controller);
     controller.forward();
     super.initState();
   }
@@ -71,7 +75,7 @@ class _WidgetCategoryItemState extends State<WidgetCategoryItem>
                 animation: tween,
                 builder: (context, widget) {
                   return FractionallySizedBox(
-                    widthFactor: tween.value,
+                    widthFactor: this.widget.completed == 0 ? 0 : tween.value,
                     child: Container(
                       height: 4,
                       decoration: BoxDecoration(
@@ -96,5 +100,11 @@ class _WidgetCategoryItemState extends State<WidgetCategoryItem>
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 }

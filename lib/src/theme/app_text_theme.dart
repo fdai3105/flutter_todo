@@ -5,13 +5,13 @@ class AppTextTheme {
 
   static const title = TextStyle(
     color: AppColors.light,
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: FontWeight.w600,
   );
 
   static final containerTitle = TextStyle(
     color: AppColors.light1,
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: FontWeight.bold,
   );
 
@@ -21,13 +21,13 @@ class AppTextTheme {
 
   static const TextStyle categoryTitle = TextStyle(
     color: AppColors.light,
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: FontWeight.w600,
   );
 
   static const TextStyle taskTitle = TextStyle(
     color: Colors.white,
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: FontWeight.w500,
   );
 
