@@ -57,10 +57,10 @@ class CreateCategoryScreen extends GetView<CategoryController> {
                         return Row(
                           children: [
                             WidgetColorButton(
+                              colors: controller.colors,
                               color: controller.selectColor,
-                              onTap: (color) {
-                                controller.selectColor = color;
-                              },
+                              onTap: (color) => controller.selectColor = color,
+                              onAddColor: () {},
                             ),
                           ],
                         );

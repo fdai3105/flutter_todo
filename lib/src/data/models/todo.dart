@@ -42,7 +42,7 @@ class TodoDatum {
 
   final int id;
   final String todo;
-  final String desc;
+  final String? desc;
   final bool complete;
   final dynamic color;
   final DateTime createdAt;

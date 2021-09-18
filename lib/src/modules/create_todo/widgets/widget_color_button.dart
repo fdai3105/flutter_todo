@@ -1,62 +1,34 @@
 part of 'widgets.dart';
 
 class WidgetColorButton extends StatelessWidget {
+  final List<Color> colors;
   final Color color;
-  final Function(MaterialColor) onTap;
+  final Function(Color) onTap;
+  final Function() onAddColor;
 
   const WidgetColorButton({
     Key? key,
+    required this.colors,
     required this.color,
     required this.onTap,
+    required this.onAddColor,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            ...SharePref.getColors().map(
-              (e) => _buildDot(MaterialColor(e, {})),
-            ),
-            _buildDot(Colors.blue),
-            _buildDot(Colors.red),
-            _buildDot(Colors.orange),
-            _buildDot(Colors.grey),
-            _buildDot(Colors.green),
-            _buildDot(Colors.purple),
-            _buildRainbow(() {
-              var color = const Color(0xff443a49);
-              Get.dialog(AlertDialog(
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SlidePicker(
-                      pickerColor: color,
-                      onColorChanged: (value) => color = value,
-                      paletteType: PaletteType.rgb,
-                      enableAlpha: false,
-                      displayThumbColor: true,
-                      showLabel: false,
-                      showIndicator: false,
-                    ),
-                    ElevatedButton(
-                      onPressed: () => SharePref.saveColors(color.value),
-                      child: const Text('Save'),
-                    ),
-                  ],
-                ),
-              ));
-            }),
-          ],
-        ),
+    return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          ...colors.map(_buildDot),
+          _buildRainbow(onAddColor),
+        ],
       ),
     );
   }
 
-  Widget _buildDot(MaterialColor color) {
+  Widget _buildDot(Color color) {
     return Container(
       margin: const EdgeInsets.only(right: 10),
       child: GestureDetector(

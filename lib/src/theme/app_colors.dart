@@ -15,6 +15,4 @@ class AppColors {
   static final Color dark2 = Colors.grey.withOpacity(0.4);
   static final Color dark3 = Colors.grey.withOpacity(0.2);
 
-  static final Color border = dark2;
-  static final Color borderLight = light1;
 }

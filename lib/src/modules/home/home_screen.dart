@@ -2,11 +2,13 @@ import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_todo/src/modules/category/category_binding.dart';
-import 'package:flutter_todo/src/modules/category/category_screen.dart';
 import 'package:get/get.dart';
 
+import '../../data/providers/category_provider.dart';
+import '../../data/providers/todo_provider.dart';
 import '../../theme/theme.dart';
+import '../category/category_binding.dart';
+import '../category/category_screen.dart';
 import '../create_todo/create_todo_controller.dart';
 import '../create_todo/create_todo_screen.dart';
 import 'home_controller.dart';
@@ -185,7 +187,10 @@ class HomeScreen extends GetView<HomeController> {
       floatingActionButton: OpenContainer(
         transitionType: ContainerTransitionType.fade,
         openBuilder: (context, callback) {
-          Get.lazyPut(() => CreateTodoController());
+          Get.lazyPut(() => CreateTodoController(
+                todoProvider: TodoProvider(),
+                categoryProvider: CategoryProvider(),
+              ));
           return const CreateTodoScreen();
         },
         closedBuilder: (context, callback) {
