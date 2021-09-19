@@ -50,10 +50,26 @@ class CategoryScreen extends GetView<CategoryController> {
                   itemBuilder: (context, i) {
                     final item = controller.category!.data[i];
                     return WidgetCategoryItem(
-                      title: item.title,
-                      taskCount: item.total,
-                      completed: item.completed,
                       margin: const EdgeInsets.only(bottom: 10),
+                      title: item.title,
+                      total: item.total,
+                      completed: item.completed,
+                      onTap: () {},
+                      onLongPress: () {
+                        Get.bottomSheet(
+                          WidgetBSheet(
+                            title: 'Edit ${item.title}',
+                            body: Column(
+                              children: [
+                                IconButton(
+                                  onPressed: () => controller.delCategory(item.id),
+                                  icon: const Icon(Icons.delete),
+                                )
+                              ],
+                            ),
+                          ),
+                        );
+                      },
                     );
                   },
                 );

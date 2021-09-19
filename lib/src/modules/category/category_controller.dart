@@ -65,4 +65,10 @@ class CategoryController extends GetxController {
       category = response.data;
     }
   }
+
+  Future delCategory(int id) async {
+    final response = await categoryProvider.delCategory(id);
+    if(response.ok) await loadCategories();
+    Get.back();
+  }
 }

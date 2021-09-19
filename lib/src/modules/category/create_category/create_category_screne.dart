@@ -44,7 +44,7 @@ class CreateCategoryScreen extends GetView<CategoryController> {
                       ),
                       decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: 'Enter new task',
+                        hintText: 'Enter new category',
                         hintStyle: TextStyle(
                           color: AppColors.dark1,
                         ),
@@ -54,15 +54,11 @@ class CreateCategoryScreen extends GetView<CategoryController> {
                     const SizedBox(height: 20),
                     GetX<CategoryController>(
                       builder: (_) {
-                        return Row(
-                          children: [
-                            WidgetColorButton(
-                              colors: controller.colors,
-                              color: controller.selectColor,
-                              onTap: (color) => controller.selectColor = color,
-                              onAddColor: () {},
-                            ),
-                          ],
+                        return WidgetColorButton(
+                          colors: controller.colors,
+                          color: controller.selectColor,
+                          onTap: (color) => controller.selectColor = color,
+                          onAddColor: () {},
                         );
                       },
                     ),

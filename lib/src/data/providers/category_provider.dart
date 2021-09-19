@@ -6,13 +6,12 @@ import '../connect_service.dart';
 import '../models/network_response.dart';
 
 class CategoryProvider extends ConnectService {
-  static const createCategoryURL = 'category';
-  static const categoriesURL = 'category';
+  static const categoryURL = 'category/';
 
   Future<NetworkResponse<Map>> createCategory(Map map) async {
     try {
       final response = await post(
-        createCategoryURL,
+        categoryURL,
         data: map,
         options: Options(headers: {
           'Authorization': 'Bearer ${SharePref.getUser()!.accessToken}'
@@ -29,7 +28,7 @@ class CategoryProvider extends ConnectService {
   Future<NetworkResponse<Category>> getCategories() async {
     try {
       final response = await get(
-        categoriesURL,
+        categoryURL,
         options: Options(headers: {
           'Authorization': 'Bearer ${SharePref.getUser()!.accessToken}'
         }),
@@ -38,6 +37,22 @@ class CategoryProvider extends ConnectService {
         response,
         (json) => Category.fromJson(json),
       );
+    } on DioError catch (e, s) {
+      print(e.error);
+      print(e.response?.data);
+      return NetworkResponse.withError(e.response);
+    }
+  }
+
+  Future<NetworkResponse<Map>> delCategory(int id) async {
+    try {
+      final response = await delete(
+        categoryURL + id.toString(),
+        options: Options(headers: {
+          'Authorization': 'Bearer ${SharePref.getUser()!.accessToken}'
+        }),
+      );
+      return NetworkResponse.fromResponse(response, (value) => value);
     } on DioError catch (e, s) {
       print(e.error);
       print(e.response?.data);

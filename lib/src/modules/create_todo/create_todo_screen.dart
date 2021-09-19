@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_todo/src/widgets/widgets.dart';
 import 'package:get/get.dart';
 
 import '../../theme/theme.dart';
@@ -154,44 +155,27 @@ class CreateTodoScreen extends GetView<CreateTodoController> {
                     );
                   },
                 ),
-                GestureDetector(
+                WidgetButton(
                   onTap: controller.createTodo,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 12,
-                      horizontal: 16,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.blue.withOpacity(0.6),
-                          offset: const Offset(0, 4),
-                          blurRadius: 10,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      Text(
+                        'New task',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
                         ),
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: const [
-                        Text(
-                          'New task',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        SizedBox(width: 10),
-                        Icon(
-                          Icons.keyboard_arrow_up,
-                          color: AppColors.light,
-                        )
-                      ],
-                    ),
+                      ),
+                      SizedBox(width: 10),
+                      Icon(
+                        Icons.keyboard_arrow_up,
+                        color: AppColors.light,
+                      )
+                    ],
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -242,15 +226,6 @@ class CreateTodoScreen extends GetView<CreateTodoController> {
                 ),
               )),
           const SizedBox(height: 20),
-          // SlidePicker(
-          //   pickerColor: controller.placeholderColor,
-          //   onColorChanged: (value) => controller.placeholderColor = value,
-          //   paletteType: PaletteType.hsv,
-          //   enableAlpha: true,
-          //   showLabel: false,
-          //   showIndicator: false,
-          //   sliderTextStyle: const TextStyle(color: Colors.white),
-          // ),
           ColorPicker(
             pickerColor: controller.placeholderColor,
             onColorChanged: (color) {},

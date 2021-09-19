@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_todo/src/modules/login/login_binding.dart';
-import 'package:flutter_todo/src/modules/login/login_screen.dart';
-import 'package:flutter_todo/src/modules/register/register_binding.dart';
-import 'package:flutter_todo/src/modules/register/register_screen.dart';
-import 'package:flutter_todo/src/theme/theme.dart';
 import 'package:get/get.dart';
+
+import '../../theme/theme.dart';
+import '../login/login_binding.dart';
+import '../login/login_screen.dart';
+import '../register/register_binding.dart';
+import '../register/register_screen.dart';
 
 class StartScreen extends GetView {
   const StartScreen({Key? key}) : super(key: key);

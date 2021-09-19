@@ -35,44 +35,50 @@ class HomeScreen extends GetView<HomeController> {
         ],
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 20),
-              WidgetContainer(
-                title: 'CATEGORY',
-                onTitleTap: () => Get.to(
-                  () => const CategoryScreen(),
-                  binding: CategoryBinding(),
-                ),
-                trailing: Icon(
-                  Icons.keyboard_arrow_right_rounded,
-                  color: AppColors.light1,
-                ),
-                child: SizedBox(
-                  height: 110,
-                  width: double.infinity,
-                  child: ListView(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    scrollDirection: Axis.horizontal,
-                    children: const [
-                      WidgetCategoryItem(
-                        title: 'Business',
-                        taskCount: 20,
-                        completed: 10,
-                      ),
-                      WidgetCategoryItem(
-                        title: 'Business',
-                        taskCount: 30,
-                        completed: 10,
-                      ),
-                    ],
-                  ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 20),
+            WidgetContainer(
+              title: 'CATEGORY',
+              onTitleTap: () => Get.to(
+                () => const CategoryScreen(),
+                binding: CategoryBinding(),
+              ),
+              trailing: Icon(
+                Icons.keyboard_arrow_right_rounded,
+                color: AppColors.light1,
+              ),
+              child: SizedBox(
+                height: 110,
+                width: double.infinity,
+                child: GetX<HomeController>(
+                  builder: (_) {
+                    if (controller.category == null ||
+                        controller.category!.data.isEmpty) {
+                      return const Center(child: Text('Empty'));
+                    }
+                    return ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      itemCount: controller.category!.data.length,
+                      itemBuilder: (context, i) {
+                        final item = controller.category!.data[i];
+                        return WidgetCategoryItem(
+                          title: item.title,
+                          total: item.total,
+                          completed: item.completed,
+                          onTap: () {},
+                        );
+                      },
+                    );
+                  },
                 ),
               ),
-              const SizedBox(height: 30),
-              WidgetContainer(
+            ),
+            const SizedBox(height: 30),
+            Expanded(
+              child: WidgetContainer(
                 title: 'TODAY\'S TASK\'S',
                 trailing: GestureDetector(
                   behavior: HitTestBehavior.opaque,
@@ -97,54 +103,98 @@ class HomeScreen extends GetView<HomeController> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
-                            ListView(
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              children: [
-                                ListTile(
-                                  title: Text(
-                                    'Sort by:',
-                                    style: AppTextTheme.text.copyWith(
-                                      color: AppColors.light,
-                                      fontSize: 18,
+                            Obx(() => ListView(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  children: [
+                                    ListTile(
+                                      title: Text(
+                                        'Sort by:',
+                                        style: AppTextTheme.text.copyWith(
+                                          color: AppColors.light,
+                                          fontSize: 18,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                ListTile(
-                                  onTap: () {
-                                    // controller.onSortBy(SortBy.alphabetically);
-                                  },
-                                  title: Text(
-                                    'Alphabetically',
-                                    style: AppTextTheme.text,
-                                  ),
-                                ),
-                                ListTile(
-                                  title: Text(
-                                    'Due date',
-                                    style: AppTextTheme.text,
-                                  ),
-                                ),
-                                ListTile(
-                                  onTap: () {
-                                    // controller.onSortBy(SortBy.createdDate);
-                                  },
-                                  title: Text(
-                                    'Creation date',
-                                    style: AppTextTheme.text,
-                                  ),
-                                ),
-                                ListTile(
-                                  onTap: () {
-                                    // controller.onSortBy(SortBy.completed);
-                                  },
-                                  title: Text(
-                                    'Creation date',
-                                    style: AppTextTheme.text,
-                                  ),
-                                ),
-                              ],
-                            ),
+                                    ListTile(
+                                      onTap: () {
+                                        controller
+                                            .onSortBy(SortBy.alphabetically);
+                                      },
+                                      contentPadding: EdgeInsets.zero,
+                                      minLeadingWidth: 10,
+                                      leading: Container(
+                                        height: double.infinity,
+                                        width: 2,
+                                        color: controller.sortBy ==
+                                                SortBy.alphabetically
+                                            ? Colors.blue
+                                            : Colors.transparent,
+                                      ),
+                                      title: Text(
+                                        'Alphabetically',
+                                        style: AppTextTheme.text,
+                                      ),
+                                    ),
+                                    ListTile(
+                                      onTap: () {
+                                        controller.onSortBy(SortBy.dueDate);
+                                      },
+                                      contentPadding: EdgeInsets.zero,
+                                      minLeadingWidth: 10,
+                                      leading: Container(
+                                        height: double.infinity,
+                                        width: 2,
+                                        color:
+                                            controller.sortBy == SortBy.dueDate
+                                                ? Colors.blue
+                                                : Colors.transparent,
+                                      ),
+                                      title: Text(
+                                        'Due date',
+                                        style: AppTextTheme.text,
+                                      ),
+                                    ),
+                                    ListTile(
+                                      onTap: () {
+                                        controller.onSortBy(SortBy.createdDate);
+                                      },
+                                      contentPadding: EdgeInsets.zero,
+                                      minLeadingWidth: 10,
+                                      leading: Container(
+                                        height: double.infinity,
+                                        width: 2,
+                                        color: controller.sortBy ==
+                                                SortBy.createdDate
+                                            ? Colors.blue
+                                            : Colors.transparent,
+                                      ),
+                                      title: Text(
+                                        'Creation date',
+                                        style: AppTextTheme.text,
+                                      ),
+                                    ),
+                                    ListTile(
+                                      onTap: () {
+                                        controller.onSortBy(SortBy.completed);
+                                      },
+                                      contentPadding: EdgeInsets.zero,
+                                      minLeadingWidth: 10,
+                                      leading: Container(
+                                        height: double.infinity,
+                                        width: 2,
+                                        color: controller.sortBy ==
+                                                SortBy.completed
+                                            ? Colors.blue
+                                            : Colors.transparent,
+                                      ),
+                                      title: Text(
+                                        'Creation date',
+                                        style: AppTextTheme.text,
+                                      ),
+                                    ),
+                                  ],
+                                )),
                           ],
                         ),
                       ),
@@ -155,33 +205,38 @@ class HomeScreen extends GetView<HomeController> {
                     color: AppColors.light1,
                   ),
                 ),
-                child: GetX<HomeController>(
-                  builder: (_) {
-                    return ListView.builder(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: controller.todo?.data.length ?? 0,
-                      itemBuilder: (context, i) {
-                        return WidgetTodoItem(
-                          todo: controller.todo!.data[i],
-                          onTap: () {
-                            // controller.todos = controller.todos.where((element) {
-                            //   if (element == controller.todos[i]) {
-                            //     // element.isCompleted = !element.isCompleted;
-                            //     return true;
-                            //   }
-                            //   return true;
-                            // }).toList();
-                          },
-                        );
-                      },
-                    );
-                  },
+                child: Expanded(
+                  child: GetX<HomeController>(
+                    builder: (_) {
+                      if (controller.todos.isEmpty) {
+                        return const Center(child: Text('Nothing to show'));
+                      }
+                      return ListView.builder(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        physics: const BouncingScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: controller.todos.length,
+                        itemBuilder: (context, i) {
+                          return WidgetTodoItem(
+                            todo: controller.todos[i],
+                            onTap: () {
+                              // controller.todos = controller.todos.where((element) {
+                              //   if (element == controller.todos[i]) {
+                              //     // element.isCompleted = !element.isCompleted;
+                              //     return true;
+                              //   }
+                              //   return true;
+                              // }).toList();
+                            },
+                          );
+                        },
+                      );
+                    },
+                  ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
       floatingActionButton: OpenContainer(
