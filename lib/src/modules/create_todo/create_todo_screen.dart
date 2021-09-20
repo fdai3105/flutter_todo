@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:flutter_todo/src/widgets/widgets.dart';
 import 'package:get/get.dart';
 
 import '../../theme/theme.dart';
 import '../../utils/share_pref.dart';
+import '../../widgets/widgets.dart';
 import 'create_todo_controller.dart';
 import 'widgets/widgets.dart';
 
@@ -337,57 +337,59 @@ class CreateTodoScreen extends GetView<CreateTodoController> {
                     ],
                   ),
                 ),
-                if (controller.categoryLoading)
-                  const Center(child: CupertinoActivityIndicator())
-                else if (controller.categories.isEmpty)
-                  const Center(child: Text('Category empty'))
-                else
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: controller.categories.length + 1,
-                      itemBuilder: (context, i) {
-                        if (i == 0) {
-                          return ListTile(
-                            onTap: () => controller.categorySelected = null,
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 0,
+                Expanded(
+                  child: controller.categoryLoading
+                      ? const Center(child: CupertinoActivityIndicator())
+                      : controller.categories.isEmpty
+                          ? const Center(child: Text('empty'))
+                          : ListView.builder(
+                              itemCount: controller.categories.length + 1,
+                              itemBuilder: (context, i) {
+                                if (i == 0) {
+                                  return ListTile(
+                                    onTap: () =>
+                                        controller.categorySelected = null,
+                                    contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 0,
+                                    ),
+                                    leading: Obx(() => Container(
+                                          height: double.infinity,
+                                          width: 3,
+                                          color: controller.categorySelected ==
+                                                  null
+                                              ? Colors.blue
+                                              : Colors.transparent,
+                                        )),
+                                    minLeadingWidth: 10,
+                                    title: const Text('No category'),
+                                  );
+                                }
+                                final item = controller.categories[i - 1];
+                                return ListTile(
+                                  onTap: () {
+                                    controller.categorySelected = item;
+                                  },
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 0,
+                                  ),
+                                  leading: Obx(() => Container(
+                                        height: double.infinity,
+                                        width: 3,
+                                        color: item.id ==
+                                                controller.categorySelected?.id
+                                            ? Colors.blue
+                                            : Colors.transparent,
+                                      )),
+                                  minLeadingWidth: 10,
+                                  title: Text(
+                                    item.title,
+                                    style:
+                                        const TextStyle(color: AppColors.light),
+                                  ),
+                                );
+                              },
                             ),
-                            leading: Obx(() => Container(
-                                  height: double.infinity,
-                                  width: 3,
-                                  color: controller.categorySelected == null
-                                      ? Colors.blue
-                                      : Colors.transparent,
-                                )),
-                            minLeadingWidth: 10,
-                            title: const Text('No category'),
-                          );
-                        }
-                        final item = controller.categories[i - 1];
-                        return ListTile(
-                          onTap: () {
-                            controller.categorySelected = item;
-                          },
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 0,
-                          ),
-                          leading: Obx(() => Container(
-                                height: double.infinity,
-                                width: 3,
-                                color:
-                                    item.id == controller.categorySelected?.id
-                                        ? Colors.blue
-                                        : Colors.transparent,
-                              )),
-                          minLeadingWidth: 10,
-                          title: Text(
-                            item.title,
-                            style: const TextStyle(color: AppColors.light),
-                          ),
-                        );
-                      },
-                    ),
-                  )
+                )
               ],
             );
           },

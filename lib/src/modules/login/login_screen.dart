@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../theme/theme.dart';
 import 'package:get/get.dart';
 
+import '../../theme/theme.dart';
 import 'login_controller.dart';
 
 class LoginScreen extends GetView<LoginController> {
@@ -48,7 +48,8 @@ class LoginScreen extends GetView<LoginController> {
                 borderRadius: BorderRadius.circular(6),
                 splashColor: Colors.white,
                 highlightColor: Colors.transparent,
-                onTap: () => controller.login(_emailCtrl.text, _passCtrl.text),
+                onTap: () =>
+                    controller.login(_emailCtrl.text, _passCtrl.text),
                 child: Container(
                   width: double.infinity,
                   padding: const EdgeInsets.symmetric(

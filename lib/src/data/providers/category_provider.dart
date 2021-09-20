@@ -47,7 +47,8 @@ class CategoryProvider extends ConnectService {
   Future<NetworkResponse<Map>> delCategory(int id) async {
     try {
       final response = await delete(
-        categoryURL + id.toString(),
+        categoryURL,
+        queryParameters: {'id': id},
         options: Options(headers: {
           'Authorization': 'Bearer ${SharePref.getUser()!.accessToken}'
         }),

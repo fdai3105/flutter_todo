@@ -1,3 +1,4 @@
+import 'package:flutter_todo/src/modules/start/start_screen.dart';
 import 'package:get/get.dart';
 
 import '../../data/models/category.dart';
@@ -7,8 +8,6 @@ import '../../data/providers/category_provider.dart';
 import '../../data/providers/todo_provider.dart';
 import '../../utils/share_pref.dart';
 import '../../widgets/dialog_loading.dart';
-import '../login/login_binding.dart';
-import '../login/login_screen.dart';
 
 enum SortBy {
   importance,
@@ -66,7 +65,7 @@ class HomeController extends GetxController {
   }
 
   Future loadTodos() async {
-    final response = await todoProvider.getTodos();
+    final response = await todoProvider.getTodayTasks();
     if (response.ok) todos = response.data!.data;
   }
 
@@ -78,7 +77,7 @@ class HomeController extends GetxController {
   void logout() {
     Get.dialog(const DialogLoading());
     SharePref.logout();
-    Get.off(() => LoginScreen(), binding: LoginBinding());
+    Get.offAll(() => const StartScreen());
   }
 
   void onSortBy(SortBy sortBy) {
@@ -101,6 +100,19 @@ class HomeController extends GetxController {
           break;
       }
       Get.back();
+    }
+  }
+
+  void onTodoTap(TodoDatum todo) async {
+    final response = await todoProvider.changeComplete(
+      id: todo.id,
+      value: !todo.complete,
+    );
+    if (response.ok) {
+      todos = todos.where((e) {
+        if (todo.id == e.id) e.complete = !e.complete;
+        return true;
+      }).toList();
     }
   }
 }

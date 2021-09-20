@@ -52,8 +52,8 @@ class _WidgetTodoItemState extends State<WidgetTodoItem>
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        widget.onTap();
+      onTap: () async {
+        await widget.onTap();
         startAnimation();
       },
       child: Container(

@@ -7,11 +7,14 @@ import '../models/todo.dart';
 
 class TodoProvider extends ConnectService {
   static const String url = 'todo';
+  static const todayTasksURL = '$url/today-tasks';
+  static const findByCategoryURL = '$url/find-by-category';
+  static const changeCompleteURL = '$url/change-complete';
 
-  Future<NetworkResponse<Todo>> getTodos() async {
+  Future<NetworkResponse<Todo>> getTodayTasks() async {
     try {
       final response = await get(
-        url,
+        todayTasksURL,
         options: Options(headers: {
           'Authorization': 'Bearer ${SharePref.getUser()!.accessToken}',
         }),
@@ -32,11 +35,57 @@ class TodoProvider extends ConnectService {
       final response = await post(
         url,
         data: param,
-        options: Options(
-            headers: {'Authorization': 'Bearer ${SharePref.getUser()!.accessToken}'}),
+        options: Options(headers: {
+          'Authorization': 'Bearer ${SharePref.getUser()!.accessToken}'
+        }),
       );
       return NetworkResponse.fromResponse(response, (value) => Map.from(value));
     } on DioError catch (e, s) {
+      print(e.error);
+      print(e.response?.data);
+      return NetworkResponse.withError(e.response);
+    }
+  }
+
+  Future<NetworkResponse<Todo>> getTodosByCategory(int id) async {
+    try {
+      final response = await get(
+        findByCategoryURL,
+        queryParameters: {'id': id},
+        options: Options(headers: {
+          'Authorization': 'Bearer ${SharePref.getUser()!.accessToken}'
+        }),
+      );
+      print(response.data);
+      return NetworkResponse.fromResponse(
+        response,
+        (value) => Todo.fromJson(value),
+      );
+    } on DioError catch (e) {
+      print(e.error);
+      print(e.response?.data);
+      return NetworkResponse.withError(e.response);
+    }
+  }
+
+  Future<NetworkResponse> changeComplete({
+    required int id,
+    required bool value,
+  }) async {
+    try {
+      final response = await post(
+        changeCompleteURL,
+        data: {'id': id, 'complete': value},
+        options: Options(headers: {
+          'Authorization': 'Bearer ${SharePref.getUser()!.accessToken}'
+        }),
+      );
+      print(response.data);
+      return NetworkResponse.fromResponse(
+        response,
+        (value) => value,
+      );
+    } on DioError catch (e) {
       print(e.error);
       print(e.response?.data);
       return NetworkResponse.withError(e.response);

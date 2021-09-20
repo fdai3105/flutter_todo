@@ -35,7 +35,7 @@ class TodoDatum {
     required this.todo,
     required this.desc,
     required this.complete,
-    required this.color,
+    required this.due,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -43,8 +43,8 @@ class TodoDatum {
   final int id;
   final String todo;
   final String? desc;
-  final bool complete;
-  final dynamic color;
+  bool complete;
+  final DateTime? due;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -58,7 +58,7 @@ class TodoDatum {
         todo: json["todo"],
         desc: json["desc"],
         complete: json["complete"],
-        color: json["color"],
+        due: json["due"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
       );
@@ -68,8 +68,27 @@ class TodoDatum {
         "todo": todo,
         "desc": desc,
         "complete": complete,
-        "color": color,
+        "due": due?.toIso8601String(),
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
       };
+
+  TodoDatum copyWith({
+    int? id,
+    String? todo,
+    String? desc,
+    bool? complete,
+    DateTime? due,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) =>
+      TodoDatum(
+        id: id ?? this.id,
+        todo: todo ?? this.todo,
+        desc: desc ?? this.desc,
+        complete: complete ?? this.complete,
+        due: due ?? this.due,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+      );
 }

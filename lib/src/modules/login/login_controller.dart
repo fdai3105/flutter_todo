@@ -20,7 +20,7 @@ class LoginController extends GetxController {
     print(response.toString());
     if (response.ok) {
       await SharePref.saveUser(response.data!);
-      await Get.off(() => HomeScreen(), binding: HomeBinding());
+      Get.offAll(() => HomeScreen(), binding: HomeBinding());
     } else {
       Get.back();
       if (response.code == HttpStatus.forbidden) {
